@@ -4,6 +4,18 @@ RSpec.feature 'Books:', type: :feature do
 
   let(:user) { User.create name: "User 1", email: "an@email.com" }
 
+  describe Book do
+
+    it 'is valid with title' do
+      expect(Book.new(title: 'title')).to be_valid
+    end
+
+    it 'is not valid without title' do
+      expect(Book.new(title: '')).to_not be_valid
+    end
+
+  end
+
   describe 'Adding a book' do
 
     before do
