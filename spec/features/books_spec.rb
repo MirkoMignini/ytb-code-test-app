@@ -14,6 +14,12 @@ RSpec.feature 'Books:', type: :feature do
       expect(Book.new(title: '')).to_not be_valid
     end
 
+    it 'is found using slug' do
+      Book.new(title: 'title').save
+      expect(Book.friendly.find('title')).to_not be nil
+      Book.destroy_all
+    end
+
   end
 
   describe 'Adding a book' do

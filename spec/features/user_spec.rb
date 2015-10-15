@@ -17,6 +17,7 @@ RSpec.feature 'Users:', type: :feature do
     it 'is invalid with an already used email' do
       User.new(name: 'user', email: 'email@email.com').save
       expect(User.new(name: 'user 2', email: 'email@email.com')).to_not be_valid
+      User.destroy_all
     end
 
     it 'books are deleted when the owner user is deleted' do
@@ -29,6 +30,14 @@ RSpec.feature 'Users:', type: :feature do
 
       user.destroy
       expect(Book.count).to eq(0)
+
+      User.destroy_all
+    end
+
+    it 'is found using slug' do
+      User.new(name: 'user', email: 'email@email.com').save
+      expect(User.friendly.find('user')).to_not be nil
+      User.destroy_all
     end
 
   end

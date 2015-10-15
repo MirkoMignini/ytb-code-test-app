@@ -64,11 +64,11 @@ class BooksController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
   end
 
   def set_book
-    @book = @user.books.find(params[:id])
+    @book = @user.books.friendly.find(params[:id])
   end
 
   def book_params
