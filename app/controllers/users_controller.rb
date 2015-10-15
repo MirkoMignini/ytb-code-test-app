@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         # Notify the admin that a new user has been added
-        AdminMailer.new_user(@user).deliver_now
+        AdminMailer.new_user(@user).deliver_later
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else

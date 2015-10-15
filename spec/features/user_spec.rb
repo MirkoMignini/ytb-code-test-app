@@ -2,13 +2,17 @@ RSpec.feature 'Users:', type: :feature do
 
   describe 'Creating a user' do
 
+    include ActiveJob::TestHelper
+
     before do
       expect(ActionMailer::Base.deliveries.empty?).to be true
       visit '/'
       click_on 'New User'
       fill_in 'Name', with: 'Sam Smith'
       fill_in 'Email', with: 'sam@email.com'
-      click_on 'Create User'
+      perform_enqueued_jobs do
+        click_on 'Create User'
+      end
     end
 
     it 'notifies an admin by email' do
