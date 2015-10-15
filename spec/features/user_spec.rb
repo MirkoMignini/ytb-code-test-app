@@ -19,6 +19,18 @@ RSpec.feature 'Users:', type: :feature do
       expect(User.new(name: 'user 2', email: 'email@email.com')).to_not be_valid
     end
 
+    it 'books are deleted when the owner user is deleted' do
+      user = User.new(name: 'user', email: 'email2@email.com')
+      user.save
+      expect(Book.count).to eq(0)
+
+      Book.new(title: 'title', user: user).save
+      expect(Book.count).to eq(1)
+
+      user.destroy
+      expect(Book.count).to eq(0)
+    end
+
   end
 
   describe 'Creating a user' do
