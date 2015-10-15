@@ -1,5 +1,26 @@
 RSpec.feature 'Users:', type: :feature do
 
+  describe User do
+
+    it 'is valid with name and email' do
+      expect(User.new(name: 'user', email: 'email@domain.com')).to be_valid
+    end
+
+    it 'is invalid without name or email' do
+      expect(User.new(name: '', email: '')).to_not be_valid
+    end
+
+    it 'is invalid with a wrong email' do
+      expect(User.new(name: 'user', email: 'email@domain')).to_not be_valid
+    end
+
+    it 'is invalid with an already used email' do
+      User.new(name: 'user', email: 'email@email.com').save
+      expect(User.new(name: 'user 2', email: 'email@email.com')).to_not be_valid
+    end
+
+  end
+
   describe 'Creating a user' do
 
     include ActiveJob::TestHelper
