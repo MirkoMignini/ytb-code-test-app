@@ -19,3 +19,6 @@
 # Ignore Mac network files
 ._*
 .DS_Store
+
+# Ignore RubyMine IDE files
+/.idea
