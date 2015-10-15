@@ -28,3 +28,19 @@ Please add your notes below.
 
 Notes
 -----
+1. As first step I solved the problem that sometimes there are slowdowns when new users are created, this is because in the create action in user controller a new user notification email is sent to admin, it's not a good practice to do long synch operations in controllers, prior to rails 4.2 was necessary to add an external gem like delayed_job, but now there is ActiveJob built in and a new method deliver_later was added in mailer.
+2. Changing the new user email to an asynch procees implies a change in rspec too, executing rspec without changing probably will not fail in a test environment because the asynch job of sending email is processed before the test is executed but it's a best practice to encapsulate create new user method in test inside a perform_enqueued_jobs to be sure that the test proceed only after the asynch job is completed.
+3. Then I added validation to user and book. For user I added that name and email must be present as first, than that email must be unique and that respect a regex using a reusable validator. To book I simply added that a title must be present.
+4. I than modified rspec according to validation rules and added various tests to check every validation rule.
+5. Another problem is that if you destroy a user with associated books they are not destroyed too, to to that I added a dependent: :destroy to has_many :books relations that means to call destroy on every boob associated with user while deleting.
+6. I added a test to check if after deleting an user with associated books they are deleted too.
+7. I changed the way how books are managed, books are entities associated to users so in this case nested resources fits better, so I changed the router, added a specific book controller and added the specific views for books.
+8. I changed in rspec the way books are tested according to the nested resources.
+9. I don't like url with id, so I added friendly_id gem to have pretty urls and added relative tests.
+
+Others tasks for the future that I can't do in 2 hours
+-----
+1. Add books index also in user show page.
+2. Add a fast way to add books while creating or showing a user, like nested forms using cocoon or nested_form gem.
+3. Add more tests for books and users pages and also for json.
+4. Move all the strings to the locale file.
